@@ -1,3 +1,5 @@
+(require 'cl)
+
 (defun dev-shell-cmd (cmd)
   (shell-command-to-string (concat cmd "| tr -d '\r\n'")))
 

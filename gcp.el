@@ -20,4 +20,6 @@
 
 (defun gcp ()
   (interactive)
-  (gc (lambda () (shell-command-to-string "git push"))))
+  (gc (lambda ()
+        (shell-command
+         (format "cd %s && git push" (dev-repo-path))))))

@@ -1,10 +1,20 @@
-;;(setq *rsp-tmux-cmd* "clear && docker-compose exec %s rspec %s")
-(setq *rsp-tmux-cmd* "clear && docker-compose exec %s rspec %s")
+(require 'comint)
+
+(setq *rsp-tmux-cmd* "clear && docker-compose exec %s 'rspec' %s")
+(setq *rsp-proc* nil)
+
+(define-minor-mode rsp-minor-mode
+  :init-value nil
+  :keymap (let ((map (make-sparse-keymap)))
+            (define-key map (kbd "k") (lambda ()
+                                        (interactive)
+                                        (delete-process *rsp-proc*)
+                                        (kill-this-buffer)))
+            map))
 
 (defun rsp ()
   (interactive)
   (rsp-send-cmd (format *rsp-tmux-cmd* (dev-repo-name) (rsp-path))))
-
 
 (defun rsp-block ()
   (interactive)
@@ -12,10 +22,6 @@
                       ":"
                       (number-to-string (1+ (count-lines 1 (point)))))))
     (shell-command (format *rsp-tmux-cmd* (dev-repo-name) path))))
-
-(defun rsp-tool ()
-  (interactive)
-  (call-process (format "docker exec -it %s which rspec > /dev/null" (dev-repo-name))))
 
 (defun rsp-open ()
   (interactive)
@@ -48,19 +54,11 @@
   (let ((re (format "\\(%s\/app\\|%s\\|\.rb\\)" repo-path repo-path)))
     (split-string filepath re)))
 
-(defun rsp-send-cmd (cmd &optional _num)
-  (interactive)
+(defun rsp-send-cmd (cmd)
   (let ((buf "rsp"))
     (ansi-term (getenv "SHELL") buf)
     (with-current-buffer (concat "*" buf "*")
-      (lexical-let ((p (get-buffer-process (current-buffer))))
-        (local-set-key (kbd "k")
-                       (lambda ()
-                         (interactive)
-                         (delete-process p)
-                         (kill-this-buffer)
-                         (local-unset-key (kbd "k"))))
-
-
-        (goto-char (process-mark p))
-        (apply comint-input-sender (list p cmd))))))
+      (rsp-minor-mode 1)
+      (setq *rsp-proc* (get-buffer-process (current-buffer)))
+      (goto-char (process-mark *rsp-proc*))
+      (apply comint-input-sender (list *rsp-proc* cmd)))))

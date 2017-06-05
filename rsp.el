@@ -8,7 +8,7 @@ then echo rspec; else echo ruby; fi); clear; docker-compose exec %s $a %s")
 (define-minor-mode rsp-minor-mode
   :init-value nil
   :keymap (let ((map (make-sparse-keymap)))
-            (define-key map (kbd "k") (lambda ()
+            (define-key map (kbd "\C-v\C-k") (lambda ()
                                         (interactive)
                                         (delete-process *rsp-proc*)
                                         (kill-this-buffer)))

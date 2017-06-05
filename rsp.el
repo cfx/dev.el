@@ -60,9 +60,14 @@ then echo rspec; else echo ruby; fi); clear; docker-compose exec %s $a %s")
     (split-string filepath re)))
 
 (defun rsp-send-cmd (cmd)
-  (let ((buf "rsp"))
-    (ansi-term (getenv "SHELL") buf)
-    (with-current-buffer (concat "*" buf "*")
+  (let* ((buf "rsp")
+         (buf-term (concat "*" buf "*")))
+
+    (if (get-buffer buf-term)
+        (switch-to-buffer buf-term)
+      (ansi-term (getenv "SHELL") buf))
+
+    (with-current-buffer buf-term
       (rsp-minor-mode 1)
       (setq *rsp-proc* (get-buffer-process (current-buffer)))
       (goto-char (process-mark *rsp-proc*))

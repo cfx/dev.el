@@ -1,7 +1,8 @@
 (require 'comint)
 
-(setq *rsp-tmux-cmd* "clear && docker-compose exec %s 'rspec' %s")
 (setq *rsp-proc* nil)
+(setq *rsp-test-cmd* "a=$(if docker-compose exec %s which rspec > /dev/null;
+then echo rspec; else echo ruby; fi); clear; docker-compose exec %s $a %s")
 
 (define-minor-mode rsp-minor-mode
   :init-value nil
@@ -14,14 +15,18 @@
 
 (defun rsp ()
   (interactive)
-  (rsp-send-cmd (format *rsp-tmux-cmd* (dev-repo-name) (rsp-path))))
+  (let ((container-name (dev-repo-name)))
+    (rsp-send-cmd (format *rsp-test-cmd*
+                          container-name
+                          container-name
+                          (rsp-path)))))
 
 (defun rsp-block ()
   (interactive)
   (let ((path (concat (rsp-path)
                       ":"
                       (number-to-string (1+ (count-lines 1 (point)))))))
-    (shell-command (format *rsp-tmux-cmd* (dev-repo-name) path))))
+    (shell-command (format *rsp-test-cmd* (dev-repo-name) path))))
 
 (defun rsp-open ()
   (interactive)
@@ -39,7 +44,7 @@
 
 (defun rsp-all ()
   (interactive)
-  (shell-command (format *rsp-tmux-cmd* (dev-repo-name) "spec")))
+  (shell-command (format *rsp-test-cmd* (dev-repo-name) "spec")))
 
 (defun rsp-path ()
   (let* ((buf (buffer-file-name))

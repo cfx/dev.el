@@ -16,7 +16,7 @@
 (defun ghl-copy ()
   (interactive)
   (let ((link (ghl-get-url)))
-    (shell-command (format "echo '%s' | xclip -selection c" link))
+;;    (shell-command (format "echo '%s' | xclip -selection c" link))
     (message (format "%s copied into clipboard" link))))
 
 

@@ -1,6 +1,7 @@
 (require 'comint)
 
 (setq *rsp-proc* nil)
+(setq *rsp-test-all-cmd* "docker-compose exec %s rake test")
 (setq *rsp-test-cmd* "a=$(if docker-compose exec %s which rspec > /dev/null;
 then echo rspec; else echo ruby; fi); clear; docker-compose exec %s $a %s")
 
@@ -25,8 +26,13 @@ then echo rspec; else echo ruby; fi); clear; docker-compose exec %s $a %s")
   (interactive)
   (let ((path (concat (rsp-path)
                       ":"
-                      (number-to-string (1+ (count-lines 1 (point)))))))
-    (shell-command (format *rsp-test-cmd* (dev-repo-name) path))))
+                      (number-to-string (1+ (count-lines 1 (point))))))
+        (container-name (dev-repo-name)))
+
+    (rsp-send-cmd (format *rsp-test-cmd*
+                          container-name
+                          container-name
+                          path))))
 
 (defun rsp-open ()
   (interactive)
@@ -44,7 +50,7 @@ then echo rspec; else echo ruby; fi); clear; docker-compose exec %s $a %s")
 
 (defun rsp-all ()
   (interactive)
-  (shell-command (format *rsp-test-cmd* (dev-repo-name) "spec")))
+  (rsp-send-cmd (format *rsp-test-all-cmd* (dev-repo-name))))
 
 (defun rsp-path ()
   (let* ((buf (buffer-file-name))

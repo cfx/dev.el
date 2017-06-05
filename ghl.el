@@ -16,20 +16,26 @@
 (defun ghl-copy ()
   (interactive)
   (let ((link (ghl-get-url)))
-;;    (shell-command (format "echo '%s' | xclip -selection c" link))
+    (kill-new link)
     (message (format "%s copied into clipboard" link))))
 
 
 (defun ghl-get-url ()
   (let ((repo (read-from-minibuffer "Repo: " (dev-repo-name)))
-        (branch (read-from-minibuffer "Branch: " (dev-branch-name)))
-        (line (int-to-string (1+ (count-lines 1 (point))))))
+        (branch (read-from-minibuffer "Branch: " (dev-branch-name))))
 
     (ghl-set-user!)
+    (beginning-of-line)
 
     (concat *ghl-github-url*
             *ghl-github-user*
-            "/" repo "/blob/" branch "/" (ghl-get-filepath repo) "#L" line)))
+            "/"
+            repo
+            "/blob/"
+            branch
+            "/"
+            (ghl-get-filepath repo)
+            "#L" (int-to-string (1+ (count-lines 1 (point)))))))
 
 (defun ghl-get-filepath (repo)
   (let* ((full-path (split-string (buffer-file-name) "/"))

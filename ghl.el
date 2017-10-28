@@ -3,6 +3,8 @@
 ;; You need to define *ghl-browser-cmd* e.g
 ;; (setq *ghl-browser-cmd* "/usr/bin/open -a '/Applications/Google Chrome.app' '%s'")
 
+(require 'dev.el)
+
 (defvar *ghl-github-url* "https://github.com/")
 
 (defun ghl ()
@@ -56,3 +58,5 @@
 
     (setq *ghl-github-user* user)
     user))
+
+(provide 'ghl)

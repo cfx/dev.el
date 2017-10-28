@@ -11,3 +11,5 @@
 
 (defun dev-branch-name ()
   (dev-shell-cmd "git rev-parse --abbrev-ref HEAD"))
+
+(provide 'dev.el)

@@ -1,3 +1,5 @@
+(require 'dev.el)
+
 (defun gc (&optional callback)
   (interactive)
   (let ((str (dev-branch-name)))
@@ -23,3 +25,6 @@
   (gc (lambda ()
         (shell-command
          (format "cd %s && git push" (dev-repo-path))))))
+
+
+(provide 'gcp)

@@ -1,4 +1,5 @@
 (require 'comint)
+(require 'dev.el)
 
 (setq *rsp-proc* nil)
 (setq *rsp-test-all-cmd* "docker-compose exec %s rake test")
@@ -78,3 +79,5 @@ then echo rspec; else echo ruby; fi); clear; docker-compose exec %s $a %s")
       (setq *rsp-proc* (get-buffer-process (current-buffer)))
       (goto-char (process-mark *rsp-proc*))
       (apply comint-input-sender (list *rsp-proc* cmd)))))
+
+(provide 'rsp)

@@ -4,7 +4,7 @@
 (setq *rsp-proc* nil)
 (setq *rsp-test-all-cmd* "docker-compose exec %s rake test")
 (setq *rsp-test-cmd* "a=$(if docker-compose exec %s which rspec > /dev/null;
-then echo rspec; else echo ruby; fi); clear; docker-compose exec %s $a %s")
+then echo 'bundle exec rspec'; else echo ruby; fi); clear; docker-compose exec %s $a %s")
 
 (define-minor-mode rsp-minor-mode
   :init-value nil
@@ -42,6 +42,9 @@ then echo rspec; else echo ruby; fi); clear; docker-compose exec %s $a %s")
          (paths (rsp-paths repo-path buf)))
 
     (unless (string-match "_spec.rb" buf)
+      (if (= (length (window-list)) 1)
+	  (split-window-right))
+      (other-window 1)
       (find-file (mapconcat 'identity
                             (list (car paths)
                                   repo-path

@@ -1,0 +1,20 @@
+[alias]
+  co = checkout
+  ci = commit
+  st = status
+  br = branch
+  hist = log --graph --pretty --abbrev-commit --date=short
+  type = cat-file -t
+  dump = cat-file -p
+[color]
+	ui = true
+[user]
+	name = Józef Chraplewski
+	email = <email>
+[email]
+[core]
+	#excludesfile = /home/cfx/.gitignore_global
+[push]
+	default = current
+[commit]
+	verbose = true

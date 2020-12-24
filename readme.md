@@ -1,3 +1,1 @@
-```
-curl -O https://raw.githubusercontent.com/cfx/dev.el/master/.vimrc
-```
+Configuration files, emacs extensions, bash scripts etc.

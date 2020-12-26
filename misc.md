@@ -15,6 +15,7 @@ Section "InputClass"
         Driver "libinput"
         Option "NaturalScrolling" "on"
 EndSection
+```
 
 ##### Map Caps Lock to Control (X11)
 Add `XKBOPTIONS="ctrl:nocaps"` to `/etc/default/keyboard`

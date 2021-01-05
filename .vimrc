@@ -64,3 +64,4 @@ set background=dark
 set t_Co=256
 
 :command Tt :exe "silent !tt.sh " . expand('%:p') | :redraw!
+:command Ghl :exe "silent !ghl.sh " . expand('%:p') . " " . line('.')| :redraw!

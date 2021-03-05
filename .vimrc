@@ -1,5 +1,5 @@
 call plug#begin()
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+"Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'elixir-editors/vim-elixir'
@@ -60,7 +60,7 @@ cnoremap <C-P>		<Up>
 cnoremap <Esc><C-B>	<S-Left>
 cnoremap <Esc><C-F>	<S-Right>
 
-set background=dark
+"set background=dark
 set t_Co=256
 
 :command Tt :exe "silent !tt.sh " . expand('%:p') | :redraw!

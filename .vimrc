@@ -61,7 +61,12 @@ cnoremap <Esc><C-B>	<S-Left>
 cnoremap <Esc><C-F>	<S-Right>
 
 "set background=dark
-set t_Co=256
+"set t_Co=256
+
+colorscheme bruin
+"highlight Comment cterm=italic
 
 :command Tt :exe "silent !tt.sh " . expand('%:p') | :redraw!
 :command Ghl :exe "silent !ghl.sh " . expand('%:p') . " " . line('.')| :redraw!
+
+

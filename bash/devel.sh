@@ -8,7 +8,7 @@ function require {
 }
 
 function send_tmux {
-        tmux send-keys -t:.1 "$1" Enter &> /dev/null && tmux select-pane -t:.0 &> /dev/null
+        tmux send-keys -t:2.0 "$1" Enter &> /dev/null
 }
 
 function repo_name {

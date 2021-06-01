@@ -9,7 +9,6 @@ syntax on
 set expandtab
 set clipboard=unnamedplus
 set autoread
-set ruler
 set hid
 set encoding=utf8
 set smarttab
@@ -22,7 +21,7 @@ set nobackup
 set nowb
 set noswapfile
 set laststatus=2
-set statusline+=%F
+set statusline+=%F\ %l\:%c
 set nohlsearch
 
 let g:mix_format_on_save = 1

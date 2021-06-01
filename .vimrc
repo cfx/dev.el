@@ -23,6 +23,7 @@ set nowb
 set noswapfile
 set laststatus=2
 set statusline+=%F
+set nohlsearch
 
 let g:mix_format_on_save = 1
 

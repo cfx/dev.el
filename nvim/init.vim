@@ -9,6 +9,8 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
 Plug 'tpope/vim-fugitive'
 Plug 'tomlion/vim-solidity'
+Plug 'pangloss/vim-javascript'
+autocmd FileType javascript set tabstop=2|set shiftwidth=2|set expandtab
 
 call plug#end()
 syntax on
@@ -29,6 +31,7 @@ set noswapfile
 set laststatus=2
 set statusline+=%F\ %l\:%c
 set nohlsearch
+setl smartindent
 
 let g:mix_format_on_save = 1
 
@@ -67,7 +70,7 @@ cnoremap <C-P>		<Up>
 cnoremap <Esc><C-B>	<S-Left>
 cnoremap <Esc><C-F>	<S-Right>
 
-set background=light
+set background=dark
 "set t_Co=256
 colorscheme NeoSolarized
 

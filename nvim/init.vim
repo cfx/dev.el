@@ -7,7 +7,7 @@ Plug 'mhinz/vim-mix-format'
 Plug 'neovim/nvim-lspconfig'
 Plug 'tpope/vim-fugitive'
 Plug 'NLKNguyen/papercolor-theme'
-Plug 'micha/vim-colors-solarized'
+Plug 'overcache/NeoSolarized'
 
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -81,8 +81,9 @@ cnoremap <Esc><C-F>	<S-Right>
 
 "set termguicolors
 set background=light
-"set t_Co=256
-colorscheme solarized
+""set t_Co=256
+colorscheme PaperColor
+
 
 "highlight Comment cterm=italic
 
@@ -210,7 +211,7 @@ local lsp_flags = {
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 require('lspconfig').elixirls.setup {
-  cmd = { "/home/cfx/devel/elixir-ls/language_server.sh" };
+  cmd = { "/Users/cfx/devel/elixir-ls/language_server.sh" };
   capabilities = capabilities
 }
 EOF

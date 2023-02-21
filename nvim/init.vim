@@ -2,12 +2,14 @@ call plug#begin()
 "Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'dyng/ctrlsf.vim'
+Plug 'nvim-lua/plenary.nvim'
 Plug 'elixir-editors/vim-elixir'
-Plug 'mhinz/vim-mix-format'
+"Plug 'mhinz/vim-mix-format'
 Plug 'neovim/nvim-lspconfig'
 Plug 'tpope/vim-fugitive'
 Plug 'NLKNguyen/papercolor-theme'
-Plug 'overcache/NeoSolarized'
+Plug 'cocopon/iceberg.vim'
 
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -18,8 +20,16 @@ Plug 'hrsh7th/nvim-cmp'
 " For vsnip users.
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
+Plug 'sbdchd/neoformat'
+
+Plug 'MrcJkb/haskell-tools.nvim'
 
 autocmd FileType javascript set tabstop=2|set shiftwidth=2|set expandtab
+
+augroup fmt
+  autocmd!
+  autocmd BufWritePre * undojoin | Neoformat
+augroup END
 
 call plug#end()
 syntax on
@@ -42,19 +52,14 @@ set statusline+=%F\ %l\:%c
 set nohlsearch
 setl smartindent
 
-let g:mix_format_on_save = 1
+"let g:mix_format_on_save = 1
 
 filetype plugin on
 filetype indent on
 
 autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
-autocmd FileType solidity setlocal shiftwidth=4 tabstop=4
-autocmd FileType go nmap <leader>t  <Plug>(go-test)
-autocmd FileType go nmap <leader>b  <Plug>(go-build)
-autocmd FileType go nmap <leader>r  <Plug>(go-run)
-autocmd FileType go nmap <leader>d  <Plug>(go-def)
+
 au CursorHold,CursorHoldI * checktime
-au FileType go setlocal omnifunc=go#complete#GocodeComplete
 
 map <c-x>b :Buffers<CR>
 map <c-x>k :bd<CR>
@@ -63,7 +68,8 @@ map <C-n> :cnext<CR>
 map <C-m> :cprevious<CR>
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>a :cclose<CR>
-nnoremap <leader>s :Ag<space>
+nnoremap <leader>s :CtrlSF<space>
+nnoremap <leader>S :Ag<space>
 nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 nnoremap <Leader>t :exe "silent !tt.sh " . expand('%:p') . ":" . line('.')<CR> :redraw!<CR>
 :imap jk <Esc>
@@ -79,10 +85,22 @@ cnoremap <C-P>		<Up>
 cnoremap <Esc><C-B>	<S-Left>
 cnoremap <Esc><C-F>	<S-Right>
 
-"set termguicolors
+set termguicolors
 set background=light
-""set t_Co=256
-colorscheme PaperColor
+"set t_Co=256
+"colorscheme Papercolor
+colorscheme iceberg
+
+" NERDtree like Explorer
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+"augroup ProjectDrawer
+"  autocmd!
+"  autocmd VimEnter * :Vexplore
+"augroup END
 
 
 "highlight Comment cterm=italic
@@ -101,6 +119,13 @@ nnoremap <silent> <C-p> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 
 autocmd BufWritePre *.ex lua vim.lsp.buf.formatting_sync(nil, 100)
 autocmd BufWritePre *.exs lua vim.lsp.buf.formatting_sync(nil, 100)
+
+let g:neoformat_haskell_ormolu = { 'exe': 'ormolu', 'args': [] }
+let g:neoformat_enabled_haskell = ['ormolu']
+let g:ctrlsf_default_view_mode = 'compact'
+let g:ctrlsf_auto_focus = {
+    \ "at": "start"
+    \ }
 
 lua <<EOF
   -- Setup nvim-cmp.
@@ -208,12 +233,38 @@ local lsp_flags = {
 }
 
   -- Setup lspconfig.
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 require('lspconfig').elixirls.setup {
   cmd = { "/Users/cfx/devel/elixir-ls/language_server.sh" };
   capabilities = capabilities
 }
+
+require'lspconfig'.pyright.setup{}
+
+local ht = require('haskell-tools')
+local def_opts = { noremap = true, silent = true, }
+ht.setup {
+  hls = {
+    on_attach = function(client, bufnr)
+      local opts = vim.tbl_extend('keep', def_opts, { buffer = bufnr, })
+      -- haskell-language-server relies heavily on codeLenses,
+      -- so auto-refresh (see advanced configuration) is enabled by default
+      vim.keymap.set('n', '<space>ca', vim.lsp.codelens.run, opts)
+      vim.keymap.set('n', '<space>hs', ht.hoogle.hoogle_signature, opts)
+      -- default_on_attach(client, bufnr)  -- if defined, see nvim-lspconfig
+    end,
+  },
+}
+-- Suggested keymaps that do not depend on haskell-language-server
+-- Toggle a GHCi repl for the current package
+vim.keymap.set('n', '<leader>rr', ht.repl.toggle, def_opts)
+-- Toggle a GHCi repl for the current buffer
+vim.keymap.set('n', '<leader>rf', function()
+  ht.repl.toggle(vim.api.nvim_buf_get_name(0))
+end, def_opts)
+vim.keymap.set('n', '<leader>rq', ht.repl.quit, def_opts)
+-- auto_dark_mode.init()
 EOF
 
 

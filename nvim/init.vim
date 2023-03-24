@@ -236,7 +236,7 @@ local lsp_flags = {
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 require('lspconfig').elixirls.setup {
-  cmd = { "/Users/cfx/devel/elixir-ls/language_server.sh" };
+  cmd = { "/Users/cfx/devel/elixir-ls/rel/language_server.sh" };
   capabilities = capabilities
 }
 

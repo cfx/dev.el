@@ -76,6 +76,10 @@ nnoremap <leader>S :Ag<space>
 nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 nnoremap <Leader>t :exe "silent !tt.sh " . expand('%:p') . ":" . line('.')<CR> :redraw!<CR>
 nnoremap <Leader>T :NvimTreeToggle<CR>
+
+nnoremap <leader>g :vertical<space>:Git<CR>
+nnoremap <leader>gs :vertical<space>:Git<space>status<CR>
+
 :imap jj <Esc>
 :imap jk <Esc>
 autocmd BufWritePre * %s/\s\+$//e

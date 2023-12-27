@@ -1,5 +1,4 @@
 call plug#begin()
-"Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'dyng/ctrlsf.vim'
@@ -7,8 +6,6 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'elixir-editors/vim-elixir'
 Plug 'neovim/nvim-lspconfig'
 Plug 'tpope/vim-fugitive'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'cocopon/iceberg.vim'
 
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -26,6 +23,11 @@ Plug 'nvim-tree/nvim-tree.lua'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
+
+Plug 'morhetz/gruvbox'
+
+Plug 'cocopon/iceberg.vim'
+Plug 'ojroques/nvim-bufdel'
 
 autocmd FileType javascript set tabstop=2|set shiftwidth=2|set expandtab
 
@@ -55,8 +57,6 @@ set statusline+=%F\ %l\:%c
 set nohlsearch
 setl smartindent
 
-"let g:mix_format_on_save = 1
-
 filetype plugin on
 filetype indent on
 
@@ -65,7 +65,7 @@ autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
 au CursorHold,CursorHoldI * checktime
 
 map <c-x>b :Buffers<CR>
-map <c-x>k :bd<CR>
+map <c-x>k :BufDel<CR>
 map <c-x><c-f> :Files<CR>
 map <C-n> :cnext<CR>
 map <C-m> :cprevious<CR>
@@ -75,6 +75,8 @@ nnoremap <leader>s :CtrlSF<space>
 nnoremap <leader>S :Ag<space>
 nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 nnoremap <Leader>t :exe "silent !tt.sh " . expand('%:p') . ":" . line('.')<CR> :redraw!<CR>
+nnoremap <Leader>T :NvimTreeToggle<CR>
+:imap jj <Esc>
 :imap jk <Esc>
 autocmd BufWritePre * %s/\s\+$//e
 
@@ -90,8 +92,6 @@ cnoremap <Esc><C-F>	<S-Right>
 
 set termguicolors
 set background=light
-"set t_Co=256
-"colorscheme Papercolor
 colorscheme iceberg
 
 " NERDtree like Explorer
@@ -101,8 +101,6 @@ let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
 
-
-"highlight Comment cterm=italic
 
 :command Tt :exe "silent !tt.sh " . expand('%:p') | :redraw!
 :command Ghl :exe "silent !ghl.sh " . expand('%:p') . " " . line('.')| :redraw!
@@ -120,9 +118,7 @@ nnoremap <silent> <C-p> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 let g:neoformat_haskell_ormolu = { 'exe': 'ormolu', 'args': [] }
 let g:neoformat_enabled_haskell = ['ormolu']
 let g:ctrlsf_default_view_mode = 'compact'
-let g:ctrlsf_auto_focus = {
-    \ "at": "start"
-    \ }
+let g:ctrlsf_auto_focus = {'at': 'start'}
 
 lua <<EOF
 -- disable netrw at the very start of your init.lua
@@ -148,8 +144,6 @@ require("nvim-tree").setup({
     dotfiles = true,
   },
 })
-
-
 
   -- Setup nvim-cmp.
   local cmp = require'cmp'
@@ -259,10 +253,8 @@ local lsp_flags = {
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 require('lspconfig').elixirls.setup {
-  cmd = { "/Users/cfx/devel/elixir-ls/rel/language_server.sh" };
+  cmd = { os.getenv("ELIXIR_LS_PATH") };
   capabilities = capabilities
 }
 
 EOF
-
-

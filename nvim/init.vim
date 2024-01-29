@@ -95,8 +95,7 @@ cnoremap <Esc><C-B>	<S-Left>
 cnoremap <Esc><C-F>	<S-Right>
 
 set termguicolors
-set background=light
-colorscheme iceberg
+colorscheme gruvbox
 
 " NERDtree like Explorer
 let g:netrw_banner = 0

@@ -1,5 +1,4 @@
 call plug#begin()
-Plug 'dyng/ctrlsf.vim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.5' }
 Plug 'elixir-editors/vim-elixir'
@@ -70,8 +69,7 @@ map <C-m> :cprevious<CR>
 
 nnoremap <leader>f :Telescope find_files<CR>
 nnoremap <leader>a :cclose<CR>
-nnoremap <leader>s :CtrlSF<space>
-nnoremap <leader>S :Telescope live_grep<CR>
+nnoremap <leader>s :Telescope live_grep<CR>
 nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 nnoremap <Leader>t :exe "silent !tt.sh " . expand('%:p') . ":" . line('.')<CR> :redraw!<CR>
 nnoremap <Leader>T :NvimTreeToggle<CR>
@@ -82,6 +80,7 @@ nnoremap <Leader>T :NvimTreeToggle<CR>
 :imap jj <Esc>
 :imap jk <Esc>
 autocmd BufWritePre * %s/\s\+$//e
+autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 
 cnoremap <C-A>		<Home>
 cnoremap <C-B>		<Left>
@@ -120,8 +119,6 @@ nnoremap <silent> <C-p> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 
 let g:neoformat_haskell_ormolu = { 'exe': 'ormolu', 'args': [] }
 let g:neoformat_enabled_haskell = ['ormolu']
-let g:ctrlsf_default_view_mode = 'compact'
-let g:ctrlsf_auto_focus = {'at': 'start'}
 
 lua <<EOF
 -- disable netrw at the very start of your init.lua

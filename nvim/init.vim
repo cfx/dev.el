@@ -1,11 +1,9 @@
 call plug#begin()
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
 Plug 'dyng/ctrlsf.vim'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.5' }
 Plug 'elixir-editors/vim-elixir'
 Plug 'neovim/nvim-lspconfig'
-Plug 'tpope/vim-fugitive'
 
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -64,21 +62,22 @@ autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
 
 au CursorHold,CursorHoldI * checktime
 
-map <c-x>b :Buffers<CR>
+map <c-x>b :Telescope buffers<CR>
 map <c-x>k :BufDel<CR>
-map <c-x><c-f> :Files<CR>
+map <c-x><c-f> :Telescope find_files<CR>
 map <C-n> :cnext<CR>
 map <C-m> :cprevious<CR>
-nnoremap <leader>f :Files<CR>
+
+nnoremap <leader>f :Telescope find_files<CR>
 nnoremap <leader>a :cclose<CR>
 nnoremap <leader>s :CtrlSF<space>
-nnoremap <leader>S :Ag<space>
+nnoremap <leader>S :Telescope live_grep<CR>
 nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 nnoremap <Leader>t :exe "silent !tt.sh " . expand('%:p') . ":" . line('.')<CR> :redraw!<CR>
 nnoremap <Leader>T :NvimTreeToggle<CR>
 
-nnoremap <leader>g :vertical<space>:Git<CR>
-nnoremap <leader>gs :vertical<space>:Git<space>status<CR>
+"nnoremap <leader>g :vertical<space>:Git<CR>
+"nnoremap <leader>gs :vertical<space>:Git<space>status<CR>
 
 :imap jj <Esc>
 :imap jk <Esc>

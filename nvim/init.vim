@@ -25,6 +25,7 @@ Plug 'morhetz/gruvbox'
 
 Plug 'cocopon/iceberg.vim'
 Plug 'ojroques/nvim-bufdel'
+Plug 'MrcJkb/haskell-tools.nvim'
 
 autocmd FileType javascript set tabstop=2|set shiftwidth=2|set expandtab
 

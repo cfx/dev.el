@@ -4,6 +4,7 @@ alias gp="git push"
 alias ga="git add ."
 alias gst="git status"
 export EDITOR=nvim
+export ELIXIR_LS_PATH="/Users/cfx/devel/elixir-ls/rel"
 bindkey -e
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

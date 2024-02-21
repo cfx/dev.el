@@ -74,6 +74,7 @@ nnoremap <leader>s :Telescope live_grep<CR>
 nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 nnoremap <Leader>t :exe "silent !tt.sh " . expand('%:p') . ":" . line('.')<CR> :redraw!<CR>
 nnoremap <Leader>T :NvimTreeToggle<CR>
+nnoremap <Leader>gb :!git blame %<CR>
 
 "nnoremap <leader>g :vertical<space>:Git<CR>
 "nnoremap <leader>gs :vertical<space>:Git<space>status<CR>
@@ -107,16 +108,6 @@ let g:netrw_winsize = 25
 
 :command Tt :exe "silent !tt.sh " . expand('%:p') | :redraw!
 :command Ghl :exe "silent !ghl.sh " . expand('%:p') . " " . line('.')| :redraw!
-
-nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> <C-n> <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <silent> <C-p> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
-
 
 let g:neoformat_haskell_ormolu = { 'exe': 'ormolu', 'args': [] }
 let g:neoformat_enabled_haskell = ['ormolu']

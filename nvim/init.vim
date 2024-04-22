@@ -112,6 +112,7 @@ let g:netrw_winsize = 25
 let g:neoformat_haskell_ormolu = { 'exe': 'ormolu', 'args': [] }
 let g:neoformat_enabled_haskell = ['ormolu']
 
+
 lua <<EOF
 -- disable netrw at the very start of your init.lua
 vim.g.loaded_netrw = 1
@@ -119,6 +120,15 @@ vim.g.loaded_netrwPlugin = 1
 
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true
+
+local actions = require('telescope.actions')require('telescope').setup{
+  pickers = {
+    buffers = {
+      sort_lastused = true
+    }
+  }
+}
+
 
 -- empty setup using defaults
 require("nvim-tree").setup()

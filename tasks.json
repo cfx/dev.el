@@ -1,0 +1,59 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "mix",
+			"task": "Run tests in current file",
+			"problemMatcher": [
+				"$mixCompileError",
+				"$mixCompileWarning",
+				"$mixTestFailure"
+			],
+			"group": "test",
+			"label": "mix: Run tests in current file"
+		},
+		{
+			"type": "mix",
+			"task": "Run test at cursor",
+			"problemMatcher": [
+				"$mixCompileError",
+				"$mixCompileWarning",
+				"$mixTestFailure"
+			],
+			"group": "test",
+			"label": "mix: Run test at cursor"
+		},
+		{
+			"type": "mix",
+			"task": "Build",
+			"problemMatcher": [
+				"$mixCompileError",
+				"$mixCompileWarning"
+			],
+			"group": "build",
+			"label": "mix: Build"
+		},
+		{
+			"label": "Run mix test at line",
+			"type": "shell",
+			"command": "zsh",
+			"args": [
+				"-l",
+				"-c",
+				"source ~/.zshrc && mix test ${file}:${lineNumber}"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "Run mix test for file",
+			"type": "shell",
+			"command": "zsh",
+			"args": [
+				"-l",
+				"-c",
+				"source ~/.zshrc && mix test ${file}"
+			],
+			"problemMatcher": []
+		}
+	]
+}
